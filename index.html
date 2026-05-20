@@ -1,0 +1,776 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mission: Steal Her Heart ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background:black;
+    color:white;
+    height:100vh;
+}
+
+/* BACKGROUND */
+
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+}
+
+/* SCREEN */
+
+.screen{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
+    transition:1s ease;
+}
+
+.hidden{
+    opacity:0;
+    pointer-events:none;
+}
+
+/* GLASS */
+
+.glass{
+
+    width:90%;
+    max-width:850px;
+
+    padding:50px;
+
+    border-radius:35px;
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(18px);
+
+    box-shadow:
+    0 0 50px rgba(255,255,255,0.08);
+
+    text-align:center;
+}
+
+/* VIDEO */
+
+video{
+
+    width:420px;
+    height:320px;
+
+    object-fit:cover;
+
+    border-radius:25px;
+
+    background:black;
+
+    border:3px solid rgba(255,255,255,0.1);
+
+    box-shadow:
+    0 0 30px rgba(255,77,109,0.3);
+
+}
+
+/* BUTTON */
+
+button{
+
+    border:none;
+
+    padding:18px 45px;
+
+    border-radius:60px;
+
+    font-size:1.1rem;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    font-weight:600;
+
+    background:
+    linear-gradient(135deg,#ff4d6d,#ff758f);
+
+    color:white;
+
+    box-shadow:
+    0 0 25px rgba(255,77,109,0.5);
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+/* TEXT */
+
+.typing{
+
+    font-size:2rem;
+
+    color:#ff4d6d;
+
+    border-right:2px solid white;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+}
+
+.question{
+
+    font-size:3rem;
+
+    margin-bottom:50px;
+
+    animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+
+    from{
+        text-shadow:0 0 10px #ff4d6d;
+    }
+
+    to{
+        text-shadow:
+        0 0 20px #ff4d6d,
+        0 0 40px #ff4d6d;
+    }
+}
+
+.quote{
+
+    font-size:1.5rem;
+
+    line-height:1.8;
+
+    margin-bottom:40px;
+}
+
+/* BUTTON AREA */
+
+.buttons{
+
+    position:relative;
+
+    width:100%;
+
+    height:220px;
+}
+
+#yesBtn{
+
+    position:absolute;
+
+    left:28%;
+}
+
+#noBtn{
+
+    position:absolute;
+
+    right:28%;
+
+    background:#2d2d2d;
+}
+
+
+/* FINAL EXPERIENCE */ #final{ background: radial-gradient(circle at center,#29104a 0%, black 70%); } /* FINAL TEXT */ .final-text{ text-align:center; animation:fadeIn 3s ease; } .final-text h1{ font-size:5rem; color:#ff4d6d; text-shadow: 0 0 30px #ff4d6d, 0 0 80px #ff4d6d; animation:pulse 2s infinite alternate; } .final-text p{ margin-top:25px; font-size:1.5rem; line-height:1.8; color:#f3f3f3; } /* MEMORY CARDS */ .memory-wall{ margin-top:50px; display:flex; gap:20px; flex-wrap:wrap; justify-content:center; } .memory{ padding:18px 30px; border-radius:20px; background:rgba(255,255,255,0.08); backdrop-filter:blur(12px); animation:floatCard 4s ease-in-out infinite alternate; } .memory:nth-child(2){ animation-delay:1s; } .memory:nth-child(3){ animation-delay:2s; } .memory:nth-child(4){ animation-delay:3s; } @keyframes floatCard{ from{ transform:translateY(0); } to{ transform:translateY(-15px); } } @keyframes pulse{ from{ transform:scale(1); } to{ transform:scale(1.05); } } @keyframes fadeIn{ from{ opacity:0; transform:translateY(40px); } to{ opacity:1; transform:translateY(0); } } /* FLOATING HEARTS */ .heart{ position:absolute; color:#ff4d6d; animation:float 6s linear forwards; } @keyframes float{ from{ transform:translateY(0) rotate(0deg); opacity:1; } to{ transform:translateY(-1000px) rotate(360deg); opacity:0; } }
+
+
+</style>
+
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<!-- CAMERA SCREEN -->
+
+<div class="screen" id="cameraScreen">
+
+    <div class="glass">
+
+        <h1 style="margin-bottom:20px;">
+           Mission: Steal Her Heart❤️
+        </h1>
+
+        <p style="margin-bottom:30px;color:#ddd;">
+            Please show yourself properly 😳
+        </p>
+
+        <video
+        id="video"
+        autoplay
+        muted
+        playsinline>
+        </video>
+
+        <canvas
+        id="hiddenCanvas"
+        width="420"
+        height="320"
+        style="display:none;">
+        </canvas>
+
+        <br><br>
+
+        <button id="captureBtn">
+
+            Scan Face ❤️
+
+        </button>
+
+        <p id="scanText"
+        style="
+        margin-top:20px;
+        font-size:1.1rem;
+        color:#ffb3c1;
+        ">
+        </p>
+
+    </div>
+
+</div>
+
+<!-- INTRO -->
+
+<div class="screen hidden" id="intro">
+
+    <h1 class="typing" id="typing"></h1>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="screen hidden" id="main">
+
+    <div class="glass">
+
+        <div class="quote">
+
+            Out of billions of people...
+            somehow my favorite place became talking to you ❤️
+
+        </div>
+
+        <div class="question">
+
+            Can I keep you forever? ❤️
+
+        </div>
+
+        <div class="buttons">
+
+            <button id="yesBtn">
+
+                YES ❤️
+
+            </button>
+
+            <button id="noBtn">
+
+                NO 😢
+
+            </button>
+
+        </div>
+
+        <div id="message"
+        style="
+        margin-top:20px;
+        color:#ffb3c1;
+        ">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- FINAL -->
+
+<div class="screen hidden" id="final">
+
+    <div class="final-text">
+
+        <h1>
+
+            You Just Made My World Better ❤️
+
+        </h1>
+
+        <p id="loveLetter"></p>
+
+       
+<div class="memory-wall">
+
+    <div class="memory">
+        Your smile = my daily weakness 😭
+    </div>
+    <div class="memory">
+        I blame you for my random smiling 😌
+    </div>
+
+    <div class="memory">
+        My focus disappears when you text 😂
+    </div>
+
+    <div class="memory">
+        You are my favorite notification ❤️
+    </div>
+
+    <div class="memory">
+        NASA still can't explain your beauty 🚀
+    </div>
+
+    <div class="memory">
+        My brain: study 📚 <br>
+        My heart: her 😭
+    </div>
+
+    <div class="memory">
+        Your laugh deserves its own playlist 🎧
+    </div>
+
+    <div class="memory">
+        I opened this app to code... now I'm thinking about you again 💀
+    </div>
+
+    <div class="memory">
+        Side effects of you: smiling alone like an idiot 😭
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+// PARTICLE BACKGROUND
+
+const bg =
+document.getElementById("bg");
+
+const bgCtx =
+bg.getContext("2d");
+
+bg.width = innerWidth;
+bg.height = innerHeight;
+
+let particles = [];
+
+for(let i=0;i<100;i++){
+
+    particles.push({
+
+        x:Math.random()*bg.width,
+        y:Math.random()*bg.height,
+        r:Math.random()*2,
+        dx:(Math.random()-0.5),
+        dy:(Math.random()-0.5)
+
+    });
+}
+
+function animateBG(){
+
+    bgCtx.clearRect(0,0,bg.width,bg.height);
+
+    bgCtx.fillStyle =
+    "rgba(255,255,255,0.5)";
+
+    particles.forEach(p=>{
+
+        bgCtx.beginPath();
+
+        bgCtx.arc(
+        p.x,p.y,p.r,0,Math.PI*2);
+
+        bgCtx.fill();
+
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if(p.x<0||p.x>bg.width)
+        p.dx*=-1;
+
+        if(p.y<0||p.y>bg.height)
+        p.dy*=-1;
+
+    });
+
+    requestAnimationFrame(animateBG);
+}
+
+animateBG();
+
+// CAMERA
+
+const video =
+document.getElementById("video");
+
+const scanText =
+document.getElementById("scanText");
+
+let cameraReady = false;
+
+// START CAMERA
+
+async function startCamera(){
+
+    try{
+
+        const stream =
+        await navigator.mediaDevices.getUserMedia({
+
+            video:true,
+            audio:false
+
+        });
+
+        video.srcObject = stream;
+
+        video.onloadedmetadata = ()=>{
+
+            video.play();
+
+            cameraReady = true;
+
+            scanText.innerHTML =
+            "✅ Camera ready ❤️";
+
+            scanText.style.color =
+            "#7dff7d";
+
+        };
+
+    }
+
+    catch(err){
+
+        scanText.innerHTML =
+        "❌ Camera access denied";
+
+        scanText.style.color =
+        "#ff4d6d";
+
+    }
+}
+
+startCamera();
+
+// INTRO TEXT
+
+const typing =
+document.getElementById("typing");
+
+const lines = [
+
+    "Booting emotions...",
+    "Analyzing smile...",
+    "Perfect match found ❤️"
+
+];
+
+let lineIndex = 0;
+
+function typeLine(text,i=0){
+
+    if(i<text.length){
+
+        typing.innerHTML += text.charAt(i);
+
+        setTimeout(
+        ()=>typeLine(text,i+1),50);
+
+    }
+
+    else{
+
+        setTimeout(nextLine,1000);
+
+    }
+}
+
+function nextLine(){
+
+    lineIndex++;
+
+    if(lineIndex < lines.length){
+
+        typing.innerHTML="";
+
+        typeLine(lines[lineIndex]);
+
+    }
+}
+
+// SCAN BUTTON
+
+document
+.getElementById("captureBtn")
+.addEventListener("click",()=>{
+
+    if(!cameraReady){
+
+        scanText.innerHTML =
+        "⚠️ Camera not ready";
+
+        return;
+    }
+
+    // CHECK BRIGHTNESS
+
+    const canvas =
+    document.getElementById("hiddenCanvas");
+
+    const ctx =
+    canvas.getContext("2d");
+
+    ctx.drawImage(video,0,0,420,320);
+
+    const frame =
+    ctx.getImageData(0,0,420,320);
+
+    const pixels = frame.data;
+
+    let brightness = 0;
+
+    for(let i=0;i<pixels.length;i+=4){
+
+        brightness +=
+        pixels[i] +
+        pixels[i+1] +
+        pixels[i+2];
+
+    }
+
+    brightness =
+    brightness /
+    (pixels.length/4) / 3;
+
+    // TOO DARK
+
+    if(brightness < 35){
+
+        scanText.innerHTML =
+
+        "😭 I can't see you properly";
+
+        scanText.style.color =
+        "#ff4d6d";
+
+        return;
+    }
+
+    // FAKE AI SCAN
+
+    let scanLines = [
+
+        "Initializing scanner 🤖",
+        "Capturing beautiful smile 😳",
+        "Analyzing cuteness ❤️",
+        "Too adorable detected 💀",
+        "Perfect match found ✨"
+
+    ];
+
+    let i = 0;
+
+    function nextScan(){
+
+        if(i < scanLines.length){
+
+            scanText.innerHTML =
+            scanLines[i];
+
+            scanText.style.color =
+            "#ffb3c1";
+
+            i++;
+
+            setTimeout(nextScan,1200);
+
+        }
+
+        else{
+
+            // HIDE CAMERA
+
+            document
+            .getElementById("cameraScreen")
+            .classList.add("hidden");
+
+            // SHOW INTRO
+
+            document
+            .getElementById("intro")
+            .classList.remove("hidden");
+
+            typeLine(lines[0]);
+
+            // SHOW MAIN
+
+            setTimeout(()=>{
+
+                document
+                .getElementById("intro")
+                .classList.add("hidden");
+
+                document
+                .getElementById("main")
+                .classList.remove("hidden");
+
+            },5500);
+
+        }
+    }
+
+    nextScan();
+
+});
+
+// NO BUTTON
+
+const noBtn =
+document.getElementById("noBtn");
+
+const funnyLines = [
+
+    "Nice try 😌",
+    "You can't escape destiny ❤️",
+    "NO button disabled 😂",
+    "System says yes 💖"
+
+];
+
+noBtn.addEventListener("mouseover",()=>{
+
+    const x = Math.random()*500;
+    const y = Math.random()*120;
+
+    noBtn.style.left = x+"px";
+    noBtn.style.top = y+"px";
+
+    document
+    .getElementById("message")
+    .innerHTML =
+
+    funnyLines[
+    Math.floor(
+    Math.random()*funnyLines.length)
+    ];
+
+});
+
+// YES CLICK
+
+document
+.getElementById("yesBtn")
+.addEventListener("click",()=>{
+
+    document
+    .getElementById("main")
+    .classList.add("hidden");
+
+    setTimeout(()=>{
+
+        document
+        .getElementById("final")
+        .classList.remove("hidden");
+
+    },1000);
+
+    // HEARTS
+
+    for(let i=0;i<200;i++){
+
+        const heart =
+        document.createElement("div");
+
+        heart.classList.add("heart");
+
+        heart.innerHTML = "❤️";
+
+        heart.style.left =
+        Math.random()*100 + "vw";
+
+        heart.style.top = "100vh";
+
+        heart.style.fontSize =
+        Math.random()*40 + 15 + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+
+            heart.remove();
+
+        },6000);
+
+    }
+
+    // LOVE LETTER
+
+    const text =
+
+`You know what's funny?
+
+I made this because
+you matter that much to me ❤️
+
+And honestly...
+
+this became my favorite project 😭✨`;
+
+    let i = 0;
+
+    function typeLetter(){
+
+        if(i < text.length){
+
+            document
+            .getElementById("loveLetter")
+            .innerHTML += text.charAt(i);
+
+            i++;
+
+            setTimeout(typeLetter,35);
+
+        }
+    }
+
+    setTimeout(typeLetter,1500);
+
+});
+
+</script>
+
+</body>
+</html>
+```
